@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Urban Comparison</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <div id="urban-comp">
+            <h1>{{ header }}</h1>
+            <input v-model="header">
+            <ul>
+                <li v-for="i in info">{{ i.matching_full_name }}</li>
+            </ul>
+        </div>
+        <script src="https://unpkg.com/vue@3"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js" integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
