@@ -4,29 +4,28 @@
         <meta charset="UTF-8">
         <title>Urban Comparison</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="main.css">
     </head>
     <body>
         <div id="urban-comp">
+            <div class="container">
             <h1>Urban Area Comparison</h1>
-            <h2>Choose two cities.</h2>
-            <select v-if="!selectedCity" v-model="selectedCity" class="form-select">
-                <option v-for="c in cities" :value="c" :key="c">{{ c.name }}</option>
-            </select>
-            <div v-else>You chose {{ selectedCity.name }}</div>
-            <br />
-            <selected-city v-if="selectedCity" :city-url="selectedCity.href" @clear-data="selectedCity = null"></selected-city>
+            <h2>{{ message }}</h2>
+                <div class="row">
+                    <city-selection :cities="cities" @chosen-city="e => cityOne = e"></city-selection>
+                    <city-selection :cities="cities" @chosen-city="e => cityTwo = e"></city-selection>
+                </div>
+            </div>
         </div>
         <!-- component templates -->
         <script type="text/x-template" id="selected-city-template">
-            <div class="card" style="width: 18rem;">
+            <div class="col card" style="width: 18rem;">
                 <img class="card-img-top" :src="photo" alt="City image">
                 <div class="card-body">
                   <h5 class="card-title">{{ fullname }}</h5>
                   <div class=card-text>
                       <p><strong>Country:</strong> {{ country }}</p>
                       <p><strong>Continent:</strong> {{ continent }}</p>
-                      <p v-if="mayor"><strong>Mayor:</strong> {{ mayor }}</p>
+                      <p><strong>Mayor:</strong> {{ mayor }} <span v-if="!mayor">No known mayor</span></p>
                       <p v-if="popsize"><strong>{{ popsize.label }}:</strong> {{ popsize.float_value }}</p>
                       <p v-if="language"><strong>Language:</strong> {{ language }}</p>
                       <p v-if="capp"><strong>{{ capp.label }}:</strong> ${{ capp.currency_dollar_value }}</p>
@@ -34,9 +33,16 @@
                       <p v-if="beer"><strong>{{ beer.label }}:</strong> ${{ beer.currency_dollar_value }}</p>
                       <p v-if="lunch"><strong>{{ lunch.label }}:</strong> ${{ lunch.currency_dollar_value }}</p>
                   </div>
-                  <button href="#" class="btn btn-primary" @click="$emit('clear-data')">Clear Results</button>
+                  <button class="btn btn-primary" @click="$emit('clear-data')">Clear Results</button>
                 </div>
               </div>
+        </script>
+        <script type="text/x-template" id="city-selection-template">
+            <select v-if="!selectedCity" v-model="selectedCity" class="form-select">
+                <option v-for="c in cities" :value="c" :key="c">{{ c.name }}</option>
+            </select>
+            <br />
+            <selected-city v-if="selectedCity" :city-url="selectedCity.href" @clear-data="selectedCity = null"></selected-city>
         </script>
         <!-- bootstrap js reqs -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
